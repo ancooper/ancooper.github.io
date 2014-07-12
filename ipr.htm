@@ -7,148 +7,124 @@
 <link href="https://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 
-
-
 </head>
 <body onload="circle.setMap(map)" bgcolor="#0">
-<select id="radius" onchange="play()">
-	<option selected="selected" value="655.4" disabled = "disabled">Select Portal Level</option>
-  <option value="0.16">L 1 &nbsp; (1-1-1-1-1-1-1-1) &nbsp; 160 m </option>
-  <option value="2.6">L 2 &nbsp; (2-2-2-2-2-2-2-2) &nbsp; 2,6 km </option>
-  <option value="13">L 3 &nbsp; (3-3-3-3-3-3-3-3) &nbsp; 13 km </option>
-  <option value="41">L 4 &nbsp; (4-4-4-4-4-4-4-4) &nbsp; 41 km </option>
-  <option value="100">L 5 &nbsp; (5-5-5-5-5-5-5-5) &nbsp; 100 km </option>
-  <option value="207.4">L 6 &nbsp; (6-6-6-6-6-6-6-6) &nbsp; 207,4 km </option>
-  <option value="384.2">L 7 &nbsp; (7-7-7-7-7-7-7-7) &nbsp; 384,2 km </option>
-  <option value="655.4">L 8 &nbsp; (8-8-8-8-8-8-8-8) &nbsp; 655,4 km </option>
-  
-  <option disabled = "disabled">&nbsp;</option>
-  <option disabled = "disabled">Single Player Maximums</option>
-  
-  <option value="0.16">L 1,0 &nbsp; (1-1-1-1-1-1-1-1) &nbsp; 160 m </option>
-  <option value="0.81">L 1,5 &nbsp; (2-2-2-2-1-1-1-1) &nbsp; 810 m </option>
-  <option value="6.3">L 2,5 &nbsp; (3-3-3-3-2-2-2-2) &nbsp; 6,3 km</option>
-  <option value="24">L 3,4 &nbsp; (4-4-4-4-3-3-3-3) &nbsp; 24 km</option>
-  <option value="41">L 4,0 &nbsp; (5-5-4-4-4-4-3-3) &nbsp; 41 km</option>
-  <option value="81.5">L 4,8 &nbsp; (6-6-5-5-4-4-4-4) &nbsp; 81,5 km</option>
-  <option value="110.4">L 5,1 &nbsp; (7-6-6-5-5-4-4-4) &nbsp; 110,4 km</option>
-  <option value="160.2">L 5,6 &nbsp; (8-7-6-6-5-5-4-4) &nbsp; 160,2 km</option>
-  
-  <option disabled = "disabled">&nbsp;</option>
-  <option disabled = "disabled">Multiple Player Maximums</option>
-  
-  <option value="0.256">L 1,1 &nbsp; (2-1-1-1-1-1-1-1) &nbsp; 256 m </option>
-  <option value="0.391">L 1,3 &nbsp; (2-2-1-1-1-1-1-1) &nbsp; 391 m </option>
-  <option value="0.572">L 1,4 &nbsp; (2-2-2-1-1-1-1-1) &nbsp; 572 m </option>
-  <option value="0.81">L 1,5 &nbsp; (2-2-2-2-1-1-1-1) &nbsp; 810 m </option>
-  <option value="1.1">L 1,6 &nbsp; (2-2-2-2-2-1-1-1) &nbsp; 1,1 km </option>
-  <option value="1.5">L 1,8 &nbsp; (2-2-2-2-2-2-1-1) &nbsp; 1,5 km </option>
-  <option value="2">L 1,9 &nbsp; (2-2-2-2-2-2-2-1) &nbsp; 2 km </option>
-  <option value="2.6">L 2,0 &nbsp; (2-2-2-2-2-2-2-2) &nbsp; 2,6 km </option>
-  <option value="3.3">L 2,1 &nbsp; (3-2-2-2-2-2-2-2) &nbsp; 3,3 km </option>
-  <option value="4.1">L 2,3 &nbsp; (3-3-2-2-2-2-2-2) &nbsp; 4,1 km </option>
-  <option value="5.1">L 2,4 &nbsp; (3-3-3-2-2-2-2-2) &nbsp; 5,1 km </option>
-  <option value="6.3">L 2,5 &nbsp; (3-3-3-3-2-2-2-2) &nbsp; 6,3 km </option>
-  <option value="7.6">L 2,6 &nbsp; (3-3-3-3-3-2-2-2) &nbsp; 7,6 km </option>
-  <option value="9.2">L 2,8 &nbsp; (3-3-3-3-3-3-2-2) &nbsp; 9,2 km </option>
-  <option value="10.9">L 2,9 &nbsp; (3-3-3-3-3-3-3-2) &nbsp; 10,9 km </option>
-  <option value="13">L 3,0 &nbsp; (3-3-3-3-3-3-3-3) &nbsp; 13 km </option>
-  <option value="15.3">L 3,1 &nbsp; (4-3-3-3-3-3-3-3) &nbsp; 15,3 km </option>
-  <option value="17.9">L 3,3 &nbsp; (4-4-3-3-3-3-3-3) &nbsp; 17,9 km </option>
-  <option value="20.8">L 3,4 &nbsp; (4-4-4-3-3-3-3-3) &nbsp; 20,8 km </option>
-  <option value="20.8">L 3,4 &nbsp; (4-4-4-3-3-3-3-3) &nbsp; 20,8 km </option>
-  <option value="24">L 3,5 &nbsp; (4-4-4-4-3-3-3-3) &nbsp; 24,0 km </option>
-  <option value="27.6">L 3,6 &nbsp; (4-4-4-4-4-3-3-3) &nbsp; 27,6 km </option>
-  <option value="31.6">L 3,8 &nbsp; (4-4-4-4-4-4-3-3) &nbsp; 31,6 km </option>
-  <option value="36.1">L 3,9 &nbsp; (4-4-4-4-4-4-4-3) &nbsp; 36,1 km </option>
-  <option value="41">L 4,0 &nbsp; (4-4-4-4-4-4-4-4) &nbsp; 41 km </option>
-  <option value="46.3">L 4,1 &nbsp; (5-4-4-4-4-4-4-4) &nbsp; 46,3 km </option>
-  <option value="52.2">L 4,3 &nbsp; (5-5-4-4-4-4-4-4) &nbsp; 52,2 km </option>
-  <option value="58.6">L 4,4 &nbsp; (5-5-5-4-4-4-4-4) &nbsp; 58,6 km </option>
-  <option value="65.6">L 4,5 &nbsp; (5-5-5-5-4-4-4-4) &nbsp; 65,6 km </option>
-  <option value="73.2">L 4,6 &nbsp; (5-5-5-5-5-4-4-4) &nbsp; 73,2 km </option>
-  <option value="81.5">L 4,8 &nbsp; (5-5-5-5-5-5-4-4) &nbsp; 81,5 km </option>
-  <option value="90.4">L 4,9 &nbsp; (5-5-5-5-5-5-5-4) &nbsp; 90,4 km </option>
-  <option value="100">L 5,0 &nbsp; (5-5-5-5-5-5-5-5) &nbsp; 100 km </option>
-  <option value="110.4">L 5,1 &nbsp; (6-5-5-5-5-5-5-5) &nbsp; 110,4 km </option>
-  <option value="121.6">L 5,2 &nbsp; (6-6-5-5-5-5-5-5) &nbsp; 121,6 km </option>
-  <option value="133.5">L 5,4 &nbsp; (6-6-6-5-5-5-5-5) &nbsp; 133,5 km </option>
-  <option value="146.6">L 5,5 &nbsp; (6-6-6-6-5-5-5-5) &nbsp; 146,4 km </option>
-  <option value="160.2">L 5,6 &nbsp; (6-6-6-6-6-5-5-5) &nbsp; 160,2 km </option>
-  <option value="174.9">L 5,8 &nbsp; (6-6-6-6-6-6-5-5) &nbsp; 174,9 km </option>
-  <option value="207.4">L 6,0 &nbsp; (6-6-6-6-6-6-6-6) &nbsp; 207,4 km </option>
-  <option value="225.2">L 6,1 &nbsp; (7-6-6-6-6-6-6-6) &nbsp; 225,2 km </option>
-  <option value="244.1">L 6,3 &nbsp; (7-7-6-6-6-6-6-6) &nbsp; 244,1 km </option>
-  <option value="264.3">L 6,4 &nbsp; (7-7-7-6-6-6-6-6) &nbsp; 264.3 km </option>
-  <option value="285.6">L 6,5 &nbsp; (7-7-7-7-6-6-6-6) &nbsp; 285.6 km </option>
-  <option value="308.2">L 6,6 &nbsp; (7-7-7-7-7-6-6-6) &nbsp; 308.2 km </option>
-  <option value="332.2">L 6,8 &nbsp; (7-7-7-7-7-7-6-6) &nbsp; 332,2 km </option>
-  <option value="357.4">L 6,9 &nbsp; (7-7-7-7-7-7-7-6) &nbsp; 357,4 km </option>
-  <option value="384.2">L 7,0 &nbsp; (7-7-7-7-7-7-7-7) &nbsp; 384,2 km </option>
-  <option value="412.3">L 7,1 &nbsp; (8-7-7-7-7-7-7-7) &nbsp; 412,3 km </option>
-  <option value="442.1">L 7,3 &nbsp; (8-8-7-7-7-7-7-7) &nbsp; 442,1 km </option>
-  <option value="473.3">L 7,4 &nbsp; (8-8-8-7-7-7-7-7) &nbsp; 473,3 km </option>
-  <option value="506.3">L 7,5 &nbsp; (8-8-8-8-7-7-7-7) &nbsp; 506,3 km </option>
-  <option value="540.9">L 7,6 &nbsp; (8-8-8-8-8-7-7-7) &nbsp; 540,9 km </option>
-  <option value="577.2">L 7,8 &nbsp; (8-8-8-8-8-8-7-7) &nbsp; 577,2 km </option>
-  <option value="615.4">L 7,9 &nbsp; (8-8-8-8-8-8-8-7) &nbsp; 615,4 km </option>
-  <option value="655.4">L 8,0 &nbsp; (8-8-8-8-8-8-8-8) &nbsp; 655,4 km </option>
-</select> 
-<select id="amp" onchange="play()">
-  <option selected="selected" value="1" disabled = "disabled">Select LinkAmp</option>
-  <option value="1">None</option>
-  <option value="2">1 LinkAmp &nbsp; x2 </option>
-  <option value="2.5">2 LinkAmps &nbsp; x2.5 </option>
-  <option value="2.8">3 LinkAmps &nbsp; x2.8 </option>
-  <option value="3">4 LinkAmps &nbsp; x3 </option>
+<select id="radius" onchange="preset()">
+	<option selected="selected" value="87665544" disabled = "disabled">Select Portal Level</option>
+	<option value="11111111">L 1 &nbsp; (1-1-1-1-1-1-1-1) &nbsp; 160 m </option>
+	<option value="22222222">L 2 &nbsp; (2-2-2-2-2-2-2-2) &nbsp; 2,6 km </option>
+	<option value="33333333">L 3 &nbsp; (3-3-3-3-3-3-3-3) &nbsp; 13 km </option>
+	<option value="44444444">L 4 &nbsp; (4-4-4-4-4-4-4-4) &nbsp; 41 km </option>
+	<option value="55555555">L 5 &nbsp; (5-5-5-5-5-5-5-5) &nbsp; 100 km </option>
+	<option value="66666666">L 6 &nbsp; (6-6-6-6-6-6-6-6) &nbsp; 207,4 km </option>
+	<option value="77777777">L 7 &nbsp; (7-7-7-7-7-7-7-7) &nbsp; 384,2 km </option>
+	<option value="88888888">L 8 &nbsp; (8-8-8-8-8-8-8-8) &nbsp; 655,4 km </option>
+
+	<option disabled = "disabled">&nbsp;</option>
+	<option disabled = "disabled">Single Player Maximums</option>
+
+	<option value="11111111">L 1,0 &nbsp; (1-1-1-1-1-1-1-1) &nbsp; 160 m </option>
+	<option value="22221111">L 1,5 &nbsp; (2-2-2-2-1-1-1-1) &nbsp; 810 m </option>
+	<option value="33332222">L 2,5 &nbsp; (3-3-3-3-2-2-2-2) &nbsp; 6,3 km</option>
+	<option value="44443333">L 3,4 &nbsp; (4-4-4-4-3-3-3-3) &nbsp; 24 km</option>
+	<option value="55444433">L 4,0 &nbsp; (5-5-4-4-4-4-3-3) &nbsp; 41 km</option>
+	<option value="66554444">L 4,8 &nbsp; (6-6-5-5-4-4-4-4) &nbsp; 81,5 km</option>
+	<option value="76655444">L 5,1 &nbsp; (7-6-6-5-5-4-4-4) &nbsp; 110,4 km</option>
+	<option value="87665544">L 5,6 &nbsp; (8-7-6-6-5-5-4-4) &nbsp; 160,2 km</option>
 </select>
-<font color="white" face="Arial, Helvetica" size="-1"> &nbsp; &nbsp; Drag the marker to your portal and select the level.</font>
+<span><font color="white" face="Arial, Helvetica" size="-1">&nbsp;or input&nbsp;</font><input id="res" type="text" onchange="play()" value="87665544"/></span>
+<select id="amp" onchange="play()">
+	<option selected="selected" value="1" disabled = "disabled">Select LinkAmp</option>
+	<option value="1">None</option>
+	<option value="2">1 LinkAmp &nbsp; x2 </option>
+	<option value="2.5">2 LinkAmps &nbsp; x2.5 </option>
+	<option value="2.8">3 LinkAmps &nbsp; x2.8 </option>
+	<option value="3">4 LinkAmps &nbsp; x3 </option>
+</select>
+<font id="summary" color="white" face="Arial, Helvetica" size="-1"></font>
+<button onclick="addmarker()">Add marker</button>
+<font color="white" face="Arial, Helvetica" size="-1">&nbsp;&nbsp;Drag the marker to your portal and select the level.</font>
 
 <br />
 <div id="map" style="width: 100%; height: 100%;"></div>
 
 <script type="text/javascript">
+	
+	var home = new google.maps.LatLng(58.007977, 56.234966);
 
-	var myLatlng = new google.maps.LatLng(58.007977, 56.234966);
 	var myOptions = {
 		zoom: 5,
-		center: myLatlng,
+		center: home,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 	var map = new google.maps.Map(document.getElementById("map"), myOptions);
-
-
-	var myLatLng = new google.maps.LatLng(58.007977, 56.234966);
+	
+	var image = {
+		url: 'images/hum_8res.png',
+		size: new google.maps.Size(60, 60),
+		origin: new google.maps.Point(0, 0),
+		anchor: new google.maps.Point(30, 30)
+	};
 	var marker = new google.maps.Marker({
-		position: myLatLng,
+		position: home,
 		map: map,
-    draggable: true,
-    title: 'Drag me!'
+		draggable: true,
+		icon: image,
+		title: 'Drag me!'
 	});
 
-/*	
+	var markers = [];
+	/*
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.open(map,marker);
 	});
-*/	
+	*/
 // Add a Circle overlay to the map.
 	var circle = new google.maps.Circle({
 		radius: 1,
-		center: myLatLng
+		center: home
 	}); 
 
 circle.bindTo('center', marker, 'position');
 
 // selector function
-	function play(){
+	function preset(){
 		var selector_rad = document.getElementById("radius");
+		var selector_res = document.getElementById("res");
+		selector_res.value = selector_rad.options[selector_rad.selectedIndex].value;
+		play();
+	}
+
+	function play(){
+		var selector_res = document.getElementById("res");
 		var selector_amp = document.getElementById("amp");
-		var radius = selector_rad.options[selector_rad.selectedIndex].value;
+		var summary = document.getElementById("summary");
+		var reses = selector_res.value.substr(0, 8).split('');
+		var sum = 0;
+		for(var i=0; i<reses.length; i++){
+			var res = parseInt(reses[i]);
+			if(res<0 || res>8) res = 0;
+			sum += res;
+		}
+		sum /= 8;
+		var radius = 0.16*sum*sum*sum*sum;
 		var amp = selector_amp.options[selector_amp.selectedIndex].value;
 		circle.setRadius(radius * amp * 1000);
 		map.fitBounds(circle.getBounds());
+		summary.innerText = "summary " + (radius*amp).toFixed(2) + " km";
 	}
 
+	function addmarker(){
+		//var center = new google.maps.LatLng(map.center.lat(), map.center.lng());
+		var marker = new google.maps.Marker({
+			position: map.center,
+			map: map,
+			draggable: true,
+			title: 'Drag me!'
+		});
+		markers.push(marker);
+	}
+	
 	play();
 	
 </script>
