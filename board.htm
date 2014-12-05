@@ -1,14 +1,77 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<style type="text/css">
+	* { margin: 0; padding: 0;}
+
+	body, html { height:100%; }
+	body {background-color: #432}
+</style>
+<script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'></script>
+<script src='javascripts/jcanvas.min.js'></script>
 <title>Доска</title>
 </head>
-<body onload="board.clear();" bgcolor="#0">
-<div id="map" style="width: 100%; height: 100%;"></div>
-
+<body>
+<div class="canvases">
+	<canvas id="board" width="640" height="800"></canvas>
+</div>
 <script type="text/javascript">
+	function Board(canvas) {
+		this._canvas = $(canvas);
+	}
+
+	Board.prototype.start = function() {
+		this.resize();
+		console.log("resize");
+	}
+
+	Board.prototype.resize = function() {
+		//this._size = this._canvas;
+		this.draw();
+	}
+
+	Board.prototype.draw = function() {
+		this.field(4, 8, 0, 0, 640, 640, 10, 10);
+		this.field(4, 8, 0, 640, 640, 80, 10, 1);
+
+	}
+
+	Board.prototype.field = function(pd, mn, x, y, w, h, n, m) {
+		var 
+			fx = x+mn, fy = y+mn, fw = w-2*mn, fh = h-2*mn,
+			cx = fx+pd, cy = fy+pd, cw = Math.floor((fw-pd)/n)-pd, ch = Math.floor((fh-pd)/m)-pd, sx = Math.floor((fw-pd)/n), sy = Math.floor((fh-pd)/m);
+
+
+		this.rrect(fx+3, fy+3, fw, fh, mn, '#210');
+		this.rrect(fx, fy, fw, fh, mn, '#ccc');
+
+		for (var i = 0; i < n; i++) 
+			for (var j = 0; j < m; j++) {
+				this.rrect(cx+i*sx, cy+j*sy, cw, ch, pd, '#333');
+				this.rrect(cx+1+i*sx, cy+1+j*sy, cw-1, ch-1, pd, '#999');
+		}
+	}
+
+	Board.prototype.rrect = function(x, y, w, h, r, c) {
+		this._canvas.drawRect({
+		  fillStyle: c,
+		  x: x, y: y,
+		  width: w,
+		  height: h,
+		  cornerRadius: r,
+  		  fromCenter: false
+		});		
+	}
+
+	
+
+	$(function(){
+		window.board = new Board("#board");
+		window.board.start();
+	})
 
 </script>
 </body>
