@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="canvases">
-	<canvas id="board" width="640" height="800"></canvas>
+	<canvas id="board" width="320" height="460"></canvas>
 </div>
 <script type="text/javascript">
 	function Board(canvas) {
@@ -24,18 +24,12 @@
 	}
 
 	Board.prototype.start = function() {
-		this.resize();
-		console.log("resize");
-	}
-
-	Board.prototype.resize = function() {
-		//this._size = this._canvas;
 		this.draw();
 	}
 
 	Board.prototype.draw = function() {
-		this.field(4, 8, 0, 0, 640, 640, 10, 10);
-		this.field(4, 8, 0, 640, 640, 80, 10, 1);
+		this.field(2, 4, 0, 0, 320, 320, 10, 10);
+		this.field(2, 4, 0, 320, 320, 40, 10, 1);
 
 	}
 
@@ -65,8 +59,6 @@
   		  fromCenter: false
 		});		
 	}
-
-	
 
 	$(function(){
 		window.board = new Board("#board");
