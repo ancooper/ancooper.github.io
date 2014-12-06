@@ -27,17 +27,41 @@
 		this.draw();
 	}
 
+	Board.prototype.WHITE =   {main: '#eee', light: '#fff', dark: '#888'};
+	Board.prototype.BLACK =   {main: '#333', light: '#666', dark: '#000'};
+	Board.prototype.RED =     {main: '#933', light: '#fff', dark: '#311'};
+	Board.prototype.YELLOW =  {main: '#993', light: '#fff', dark: '#331'};
+	Board.prototype.GREEN =   {main: '#393', light: '#fff', dark: '#131'};
+	Board.prototype.CYAN =    {main: '#399', light: '#fff', dark: '#133'};
+	Board.prototype.BLUE =    {main: '#339', light: '#fff', dark: '#113'};
+	Board.prototype.MAGENTA = {main: '#939', light: '#fff', dark: '#313'};
+	Board.prototype.GRAY =    {main: '#999', light: '#ddd', dark: '#333'};
+
+	Board.prototype.COLORS = [
+		null, 
+		Board.prototype.WHITE, 
+		Board.prototype.BLACK, 
+		Board.prototype.RED, 
+		Board.prototype.YELLOW, 
+		Board.prototype.GREEN, 
+		Board.prototype.CYAN, 
+		Board.prototype.BLUE, 
+		Board.prototype.MAGENTA, 
+		Board.prototype.GRAY];
+
 	Board.prototype.draw = function() {
 		this.field(2, 4, 0, 0, 320, 320, 10, 10);
 		this.field(2, 4, 0, 320, 320, 40, 10, 1);
 
+		for (var i = 0; i < 10; i++) {
+			this.ball(4+17+i*31, 320+4+17, 12, this.COLORS[i]);
+		};
 	}
 
 	Board.prototype.field = function(pd, mn, x, y, w, h, n, m) {
 		var 
 			fx = x+mn, fy = y+mn, fw = w-2*mn, fh = h-2*mn,
 			cx = fx+pd, cy = fy+pd, cw = Math.floor((fw-pd)/n)-pd, ch = Math.floor((fh-pd)/m)-pd, sx = Math.floor((fw-pd)/n), sy = Math.floor((fh-pd)/m);
-
 
 		this.rrect(fx+3, fy+3, fw, fh, mn, '#210');
 		this.rrect(fx, fy, fw, fh, mn, '#ccc');
@@ -59,6 +83,48 @@
   		  fromCenter: false
 		});		
 	}
+
+	Board.prototype.ball = function(x, y, r, cs) {
+		if (cs == null) return;
+		this.ballShadow(x, y, r);
+		this._canvas.draw({
+		  fn: function(ctx) {
+		  	ctx.beginPath();
+		  	ctx.arc(x, y, r, 0, Math.PI*2, true);
+			var gradient = ctx.createRadialGradient(x-r/2, y-r/2, 0, x, y, r);
+			gradient.addColorStop(0, cs.main);
+			gradient.addColorStop(1, cs.dark);
+			ctx.fillStyle = gradient;
+			ctx.fill();
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.arc(x, y, r*0.7, Math.PI/180*270, Math.PI/180*180, true);
+			ctx.lineTo(x-r, y-r);
+			gradient = ctx.createRadialGradient(x-r*.5, y-r*.5, 0, x, y, r);
+			gradient.addColorStop(0, cs.light);
+			gradient.addColorStop(0.5, 'transparent');
+			ctx.fillStyle = gradient;
+			ctx.fill();
+			ctx.closePath();
+		  }
+		});
+    }
+
+    Board.prototype.ballShadow = function(x, y, r) {
+		this._canvas.draw({
+		  fn: function(ctx) {
+		  	ctx.beginPath();
+			ctx.arc(x+r*.125, y+r*.25, r*1.5, 0, Math.PI*2, true);
+			var gradient = ctx.createRadialGradient(x+r*.125, y+r*.25, 0, x+r*.25, y+r*.5, r*1.3);
+			gradient.addColorStop(0, '#000000');
+			gradient.addColorStop(1, 'transparent');
+			ctx.fillStyle = gradient;
+			ctx.fill();
+			ctx.closePath();
+		  }
+		});
+    }
 
 	$(function(){
 		window.board = new Board("#board");
