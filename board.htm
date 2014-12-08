@@ -10,21 +10,24 @@
 	body, html { height:100%; }
 	body {background-color: #432}
 </style>
-<script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'></script>
-<script src='javascripts/jcanvas.min.js'></script>
 <title>Доска</title>
 </head>
-<body>
+<body onload="bodyonload();" background="images/backboard.jpg">
 <div class="canvases">
 	<canvas id="board" width="320" height="460"></canvas>
 </div>
 <script type="text/javascript">
-	function Board(canvas) {
-		this._canvas = $(canvas);
-	}
-
-	Board.prototype.start = function() {
-		this.draw();
+	function Board(id, x, y, w, h, m, n) {
+		var self = this;
+		this.canvas = document.getElementById(id);
+		this.ctx = this.canvas.getContext('2d');
+		this.pos = {x: x, y: y};
+		this.size = {w: w, h: h};
+		this.dim = {m: m, n: n};
+		this.canvas.addEventListener("click", function(e) {
+			self.canvasclick.apply(self, [e]);
+		});		
+		this.data = new Array(Math.ceil(n*m));
 	}
 
 	Board.prototype.WHITE =   {main: '#eee', light: '#fff', dark: '#888'};
@@ -49,66 +52,80 @@
 		Board.prototype.MAGENTA, 
 		Board.prototype.GRAY];
 
-	Board.prototype.draw = function() {
-		this.field(2, 4, 0, 0, 320, 320, 10, 10);
-		this.field(2, 4, 0, 320, 320, 40, 10, 1);
-
-		for (var i = 0; i < 10; i++) {
-			this.ball(4+17+i*31, 320+4+17, 12, this.COLORS[i]);
-		};
+	Board.prototype.canvasclick = function(e) {
+		var 
+			i = Math.floor((e.pageX - this.canvas.offsetLeft - this.pos.x)*this.dim.m/this.size.w), 
+			j = Math.floor((e.pageY - this.canvas.offsetTop - this.pos.y)*this.dim.n/this.size.h);
+		if (i<0 || j<0 || i>=this.dim.m || j>=this.dim.n) return;
+		if (this.onclick != null) this.onclick(i, j);
 	}
 
-	Board.prototype.field = function(pd, mn, x, y, w, h, n, m) {
+	Board.prototype.draw = function() {
+		this.field(2);
+	}
+
+	Board.prototype.field = function(pd) {
 		var 
-			fx = x+mn, fy = y+mn, fw = w-2*mn, fh = h-2*mn,
-			cx = fx+pd, cy = fy+pd, cw = Math.floor((fw-pd)/n)-pd, ch = Math.floor((fh-pd)/m)-pd, sx = Math.floor((fw-pd)/n), sy = Math.floor((fh-pd)/m);
+			fx = this.pos.x, 
+			fy = this.pos.y, 
+			fw = this.size.w, 
+			fh = this.size.h,
+			cx = fx+pd, 
+			cy = fy+pd, 
+			cw = Math.floor((fw-pd)/this.dim.m)-pd, 
+			ch = Math.floor((fh-pd)/this.dim.n)-pd, 
+			sx = Math.floor((fw-pd)/this.dim.m), 
+			sy = Math.floor((fh-pd)/this.dim.n);
 
-		this.rrect(fx+3, fy+3, fw, fh, mn, '#210');
-		this.rrect(fx, fy, fw, fh, mn, '#ccc');
+		//this.rrect(fx+3, fy+3, fw, fh, 4, "rgba(0, 0, 200, 0.5)");
+		this.ctx.clearRect(fx, fy, fw, fh);
+		this.rrect(fx, fy, fw, fh, 4, 'rgba(200, 200, 200, 0.25)');
 
-		for (var i = 0; i < n; i++) 
-			for (var j = 0; j < m; j++) {
-				this.rrect(cx+i*sx, cy+j*sy, cw, ch, pd, '#333');
-				this.rrect(cx+1+i*sx, cy+1+j*sy, cw-1, ch-1, pd, '#999');
+		for (var i = 0; i < this.dim.m; i++) 
+			for (var j = 0; j < this.dim.n; j++) {
+				this.rrect(cx+i*sx, cy+j*sy, cw, ch, pd, 'rgba(50, 50, 50, 0.25)');
+				this.rrect(cx+1+i*sx, cy+1+j*sy, cw-1, ch-1, pd, 'rgba(220, 220, 220, 0.25)');
+				this.ball(cx+i*sx+0.5*cw, cy+j*sy+0.5*ch, 13, this.data[Math.floor(i+j*this.dim.m)]);
 		}
 	}
 
 	Board.prototype.rrect = function(x, y, w, h, r, c) {
-		this._canvas.drawRect({
-		  fillStyle: c,
-		  x: x, y: y,
-		  width: w,
-		  height: h,
-		  cornerRadius: r,
-  		  fromCenter: false
-		});		
+		var qu = 0.5*Math.PI;
+		this.ctx.beginPath();
+		this.ctx.arc(x+r, y+h-r-1, r, qu, 2*qu);
+		this.ctx.lineTo(x, y+r);
+		this.ctx.arc(x+r, y+r, r, 2*qu, 3*qu);
+		this.ctx.lineTo(x+w-r-1, y);
+		this.ctx.arc(x+w-r-1, y+r, r, 3*qu, 0);
+		this.ctx.lineTo(x+w-1, y+h-r-1);
+		this.ctx.arc(x+w-r-1, y+h-r-1, r, 0, qu);
+		this.ctx.fillStyle = c;
+		this.ctx.fill();
+		this.ctx.closePath();	
 	}
 
 	Board.prototype.ball = function(x, y, r, cs) {
+		var pi2 = 2*Math.PI;
 		if (cs == null) return;
-		this.ballShadow(x, y, r);
-		this._canvas.draw({
-		  fn: function(ctx) {
-		  	ctx.beginPath();
-		  	ctx.arc(x, y, r, 0, Math.PI*2, true);
-			var gradient = ctx.createRadialGradient(x-r/2, y-r/2, 0, x, y, r);
-			gradient.addColorStop(0, cs.main);
-			gradient.addColorStop(1, cs.dark);
-			ctx.fillStyle = gradient;
-			ctx.fill();
-			ctx.closePath();
+		//this.ballShadow(x, y, r);
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, 0, Math.PI*2, true);
+		var gradient = this.ctx.createRadialGradient(x-r/2, y-r/2, 0, x, y, r);
+		gradient.addColorStop(0, cs.main);
+		gradient.addColorStop(1, cs.dark);
+		this.ctx.fillStyle = gradient;
+		this.ctx.fill();
+		this.ctx.closePath();
 
-			ctx.beginPath();
-			ctx.arc(x, y, r*0.7, Math.PI/180*270, Math.PI/180*180, true);
-			ctx.lineTo(x-r, y-r);
-			gradient = ctx.createRadialGradient(x-r*.5, y-r*.5, 0, x, y, r);
-			gradient.addColorStop(0, cs.light);
-			gradient.addColorStop(0.5, 'transparent');
-			ctx.fillStyle = gradient;
-			ctx.fill();
-			ctx.closePath();
-		  }
-		});
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r*0.7, Math.PI/180*270, Math.PI/180*180, true);
+		this.ctx.lineTo(x-r, y-r);
+		gradient = this.ctx.createRadialGradient(x-r*.5, y-r*.5, 0, x, y, r);
+		gradient.addColorStop(0, cs.light);
+		gradient.addColorStop(0.5, 'transparent');
+		this.ctx.fillStyle = gradient;
+		this.ctx.fill();
+		this.ctx.closePath();
     }
 
     Board.prototype.ballShadow = function(x, y, r) {
@@ -126,10 +143,25 @@
 		});
     }
 
-	$(function(){
-		window.board = new Board("#board");
-		window.board.start();
-	})
+	bodyonload = function() {
+		window.board = new Board("board", 4, 4+100, 312, 312, 10, 10);
+		window.board.selectedTool = window.board.BLUE;
+		window.board.onclick = function(i, j) {
+			this.data[Math.floor(i+j*this.dim.m)] = this.selectedTool;
+			this.draw();
+		}
+
+		window.tools = new Board("board", 4, 324+100, 312, 32, 10, 1);
+		window.tools.data = window.tools.COLORS.slice(0);
+		window.tools.onclick = function(i, j) {
+			this.selectedTool = Math.floor(i);
+			window.board.selectedTool = this.data[this.selectedTool];
+			this.draw();
+		}
+
+		window.board.draw();
+		window.tools.draw();		
+	}
 
 </script>
 </body>
