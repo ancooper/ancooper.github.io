@@ -77,8 +77,8 @@
 			sx = Math.floor((fw-pd)/this.dim.m), 
 			sy = Math.floor((fh-pd)/this.dim.n);
 
-		//this.rrect(fx+3, fy+3, fw, fh, 4, "rgba(0, 0, 200, 0.5)");
 		this.ctx.clearRect(fx, fy, fw, fh);
+		this.rrect(fx+3, fy+3, fw, fh, 4, "rgba(0, 0, 0, 0.25)");
 		this.rrect(fx, fy, fw, fh, 4, 'rgba(200, 200, 200, 0.25)');
 
 		for (var i = 0; i < this.dim.m; i++) 
