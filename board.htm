@@ -19,6 +19,7 @@
 		var self = this;
 		this.canvas = document.getElementById(id);
 		this.ctx = this.canvas.getContext('2d');
+		this.pd = 2;
 		this.pos = {x: x, y: y};
 		this.size = {w: w, h: h};
 		this.dim = {m: m, n: n};
@@ -59,30 +60,31 @@
 	}
 
 	Board.prototype.draw = function() {
-		this.field(2);
+		this.field();
+		if (this.onpaint != null) this.onpaint();
 	}
 
-	Board.prototype.field = function(pd) {
+	Board.prototype.field = function() {
 		var 
 			fx = this.pos.x, 
 			fy = this.pos.y, 
 			fw = this.size.w, 
 			fh = this.size.h,
-			cx = fx+pd, 
-			cy = fy+pd, 
-			cw = Math.floor((fw-pd)/this.dim.m)-pd, 
-			ch = Math.floor((fh-pd)/this.dim.n)-pd, 
-			sx = Math.floor((fw-pd)/this.dim.m), 
-			sy = Math.floor((fh-pd)/this.dim.n);
+			cx = fx+this.pd, 
+			cy = fy+this.pd, 
+			cw = Math.floor((fw-this.pd)/this.dim.m)-this.pd, 
+			ch = Math.floor((fh-this.pd)/this.dim.n)-this.pd, 
+			sx = Math.floor((fw-this.pd)/this.dim.m), 
+			sy = Math.floor((fh-this.pd)/this.dim.n);
 
-		this.ctx.clearRect(fx, fy, fw, fh);
+		this.ctx.clearRect(fx-4, fy-4, fw+8, fh+8);
 		this.rrect(fx+3, fy+3, fw, fh, 4, "rgba(0, 0, 0, 0.25)");
 		this.rrect(fx, fy, fw, fh, 4, 'rgba(200, 200, 200, 0.25)');
 
 		for (var i = 0; i < this.dim.m; i++) 
 			for (var j = 0; j < this.dim.n; j++) {
-				this.rrect(cx+i*sx, cy+j*sy, cw, ch, pd, 'rgba(50, 50, 50, 0.25)');
-				this.rrect(cx+1+i*sx, cy+1+j*sy, cw-1, ch-1, pd, 'rgba(220, 220, 220, 0.25)');
+				this.rrect(cx+i*sx, cy+j*sy, cw, ch, this.pd, 'rgba(50, 50, 50, 0.25)');
+				this.rrect(cx+1+i*sx, cy+1+j*sy, cw-1, ch-1, this.pd, 'rgba(220, 220, 220, 0.25)');
 				this.ball(cx+i*sx+0.5*cw, cy+j*sy+0.5*ch, 13, this.data[Math.floor(i+j*this.dim.m)]);
 		}
 	}
@@ -152,7 +154,33 @@
 			window.board.selectedTool = this.data[this.selectedTool];
 			this.draw();
 		}
+		window.tools.onpaint = function() {
+			var 
+				fx = this.pos.x, 
+				fy = this.pos.y, 
+				fw = this.size.w, 
+				fh = this.size.h,
+				cx = fx+this.pd, 
+				cy = fy+this.pd, 
+				cw = Math.floor((fw-this.pd)/this.dim.m)-this.pd, 
+				ch = Math.floor((fh-this.pd)/this.dim.n)-this.pd, 
+				sx = Math.floor((fw-this.pd)/this.dim.m), 
+				sy = Math.floor((fh-this.pd)/this.dim.n);
 
+			var i = this.selectedTool;
+			this.ctx.beginPath();
+			this.ctx.arc(cx+i*sx+0.5*cw, cy+0.5*ch, 15, 0, 2*Math.PI);
+			this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+			this.ctx.stroke();
+			this.ctx.closePath();
+			/*this.ctx.beginPath();
+			this.ctx.arc(cx+i*sx+0.5*cw, cy+0.5*ch, 14, 0, 2*Math.PI);
+			this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+			this.ctx.stroke();
+			this.ctx.closePath();*/
+		}
+
+		window.tools.onclick(1, 0);
 		window.board.draw();
 		window.tools.draw();		
 	}
