@@ -4,13 +4,18 @@
     border: 1px solid rgb(192, 192, 192);
     padding: 5px;
     margin-bottom: 5px;
-    font: 11pt 'Palatino Linotype';
+    font: 11pt 'Verdana';
     overflow: auto;
 }
+
+#nickname {
+    margin-right: 10px;
+}
+
 #input {
     width: 550px;
 }
-#send {
+#send, #login, #logout{
     width: 50px;
 }
 
@@ -22,7 +27,7 @@
 }
 .time {
     color: rgb(144, 144, 144);
-    font: 10pt 'Courier New';
+    font: 10pt 'Consolas';
 }
 .system {
     color: rgb(165, 42, 42);

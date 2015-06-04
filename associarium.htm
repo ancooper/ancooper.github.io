@@ -4,10 +4,17 @@
         <meta charset="utf-8">
         <title></title>
         <link href="stylesheets/associarium.css" rel="stylesheet">
+        <script src="javascripts/cookie.js"></script>
+        <script src="javascripts/player.js"></script>
         <script src="http://ancooper.ddns.net/socket.io/socket.io.js"></script>
         <script src="javascripts/associarium.js"></script>
     </head>
     <body>
+        <div id="nick">
+            <span>Nick:</span>
+            <input type="text" id="inputnick"><input type="submit" id="login" value="Enter">
+            <span id="nickname"></span><input type="submit" id="logout" value="Logout">
+        </div>
         <div id="log"></div>
         <input type="text" id="input" autofocus><input type="submit" id="send" value="Send">
     </body>
