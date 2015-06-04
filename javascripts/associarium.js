@@ -38,32 +38,41 @@ window.onload = function() {
             // Прокручиваем лог в конец
             document.querySelector('#log').scrollTop = document.querySelector('#log').scrollHeight;
         });
-        // При нажатии <Enter> или кнопки отправляем текст
-        document.querySelector('#input').onkeypress = function(e) {
-            if (e.which == '13') {
-                socket.send(escape(document.querySelector('#input').value));
-                document.querySelector('#input').value = '';
-            }
-        };
-        document.querySelector('#send').onclick = function() {
-            socket.send(escape(document.querySelector('#input').value));
+
+        sendMessage = function(){
+            socket.send('/msg '+escape(document.querySelector('#input').value));
             document.querySelector('#input').value = '';
         };
-        document.querySelector('#inputnick').onkeypress = function(e) {
-            if (e.which == '13') {
-                var nick = escape(document.querySelector('#inputnick').value);
-                Player.nickname = nick;
-                Player.save();
-            }
+        // При нажатии <Enter> или кнопки отправляем текст
+        document.querySelector('#input').onkeypress = function(e) {
+            if (e.which == '13') sendMessage();
         };
-        document.querySelector('#login').onclick = function(){
+        document.querySelector('#send').onclick = function() {
+            sendMessage();
+        };
+
+        loginPlayer = function(){
             var nick = escape(document.querySelector('#inputnick').value);
             Player.nickname = nick;
             Player.save();
+            socket.send('/login '+nick);
+            socket.send('/room '+'lobby');
+        };
+        document.querySelector('#inputnick').onkeypress = function(e) {
+            if (e.which == '13') loginPlayer();
+        };
+        document.querySelector('#login').onclick = function(){
+            loginPlayer();
+        };
+
+        logoutPlayer = function(){
+            Player.nickname = undefined;
+            document.querySelector('#inputnick').value = '';
+            Player.save();
+            socket.send('/logout');            
         };
         document.querySelector('#logout').onclick = function(){
-            Player.nickname = undefined;
-            Player.save();
+            logoutPlayer();
         };
     });
 };

@@ -10,7 +10,6 @@ Player = {
 
 	save: function() {
 		Cookie.set('nickname', this.nickname, 24*30);
-		console.log('save '+this.nickname);
 		if (this.refresh != undefined){
 			this.refresh();
 		}		
