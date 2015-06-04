@@ -10,11 +10,14 @@ window.onload = function() {
 
     // Создаем соединение с сервером; websockets почему-то в Хроме не работают, используем xhr
     if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
-        socket = io.connect('46.146.178.149:8080', {'transports': ['xhr-polling']});
+        socket = io.connect('http://ancooper.ddns.net/', {'transports': ['xhr-polling']});
     } else {
-        socket = io.connect('46.146.178.149:8080');
+        socket = io.connect('http://ancooper.ddns.net/');
     }
-    
+
+    socket.on('connect_failed', function(){
+        console.log('Connection Failed');
+    });
     socket.on('error', function(e){console.log(e);});
     socket.on('connect', function () {
         console.log(socket);
