@@ -9,11 +9,15 @@ strings = {
 window.onload = function() {
 
     // Создаем соединение с сервером; websockets почему-то в Хроме не работают, используем xhr
-    if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
-        socket = io.connect('http://ancooper.ddns.net:80/', {'transports': ['xhr-polling']});
-    } else {
-        socket = io.connect('http://ancooper.ddns.net:80/');
-    }
+    //if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
+    //    socket = io.connect('http://ancooper.ddns.net:80/', {'transports': ['xhr-polling'],
+    //        'force new connection': true,
+    //        'resource': 'path/to/socket.io'});
+    //} else {
+        socket = io.connect('http://ancooper.ddns.net:80/', {
+            'force new connection': true,
+            'resource': 'path/to/socket.io'});
+    //}
 
     socket.on('connect_failed', function(){
         console.log('Connection Failed');
