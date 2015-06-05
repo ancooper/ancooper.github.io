@@ -9,7 +9,10 @@ Player = {
 	},
 
 	save: function() {
-		Cookie.set('nickname', this.nickname, 24*30);
+		if (this.nickname)
+			Cookie.set('nickname', this.nickname, 24*30)
+		else
+			Cookie.unset('nickname');
 		if (this.refresh != undefined){
 			this.refresh();
 		}		

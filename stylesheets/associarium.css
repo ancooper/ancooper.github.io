@@ -1,11 +1,41 @@
+div.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#pagelogin { 
+    display: block;
+}
+
+#pagelobby {
+    display: none;
+}
+
+.wrapperlobby{
+    width: 600px;
+}
+
 #log {
-    width: 590px;
+    width: 470px;
     height: 290px;
     border: 1px solid rgb(192, 192, 192);
     padding: 5px;
     margin-bottom: 5px;
     font: 11pt 'Verdana';
     overflow: auto;
+    float: left;
+}
+
+#rooms {
+    width: 100px;
+    height: 290px;
+    border: 1px solid rgb(192, 192, 192);
+    padding: 5px;
+    margin-bottom: 5px;
+    font: 11pt 'Verdana';
+    overflow: auto;
+    float: right;
 }
 
 #nickname {
@@ -34,4 +64,9 @@
 }
 .user {
     color: rgb(25, 25, 112);
+}
+
+.pagetitle {
+    width: 600px;
+    text-align: center;
 }
