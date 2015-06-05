@@ -24,6 +24,8 @@ Pages = {
 
     show: function (name) {
         document.querySelector('#page'+name).style.display = 'block';
+        if (this.onshow)
+            this.onshow(name);
     },
 
     hideall: function () {
@@ -34,16 +36,38 @@ Pages = {
 };
 
 window.onload = function() {
-    Pages.hideall();
-
-    Player.refresh = function() {
-        if (!this.nickname){
-            Pages.set('login');
-        } else {
-            Pages.set('lobby');
-        }
+    sendLogin = function(nick){
+        socket.emit('login', {'value': nick});
     };
+
+    Pages.hideall();
+    Pages.onshow = function(page) {
+        switch(page){
+            case 'splash':
+                skipSplash = function(){
+                    Pages.set('login');
+                };
+                splash = setTimeout(function(){
+                    skipSplash();
+                }, 5000);
+                document.querySelector('#skip').onclick = function(){
+                    clearTimeout(splash);
+                    skipSplash();
+                };
+                break;
+            case 'login':
+                Player.load();
+                if (Player.nickname)
+                    sendLogin(Player.nickname);
+                break;
+        }
+    }
+
+
+    Pages.set('splash');
+
     Player.load();
+
 
     socket = io.connect('http://ancooper.ddns.net:80/', {
             'force new connection': true,
@@ -55,6 +79,11 @@ window.onload = function() {
             document.querySelector('#log').innerHTML += strings[msg.event].replace(/\[([a-z]+)\]/g, '<span class="$1">').replace(/\[\/[a-z]+\]/g, '</span>').replace(/\%time\%/, msg.time).replace(/\%name\%/, msg.name).replace(/\%text\%/, unescape(msg.text).replace('<', '&lt;').replace('>', '&gt;')) + '<br>';
             // Прокручиваем лог в конец
             document.querySelector('#log').scrollTop = document.querySelector('#log').scrollHeight;
+        });
+
+        socket.on('loginOk', function(msg){
+            Player.token = msg.token;
+            Pages.set('lobby');
         });
 
         sendMessage = function(){
@@ -73,8 +102,7 @@ window.onload = function() {
             var nick = escape(document.querySelector('#inputnick').value);
             Player.nickname = nick;
             Player.save();
-            socket.emit('login', {'value': nick});
-            socket.emit('room', {'value': 'lobby'});
+            sendLogin(Player.nickname);
         };
         document.querySelector('#inputnick').onkeypress = function(e) {
             if (e.which == '13') loginPlayer();
@@ -87,7 +115,8 @@ window.onload = function() {
             Player.nickname = undefined;
             document.querySelector('#inputnick').value = '';
             Player.save();
-            socket.emit('logout');            
+            socket.emit('logout');
+            Pages.set('login');
         };
         document.querySelector('#logout').onclick = function(){
             logoutPlayer();
