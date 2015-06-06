@@ -6,8 +6,11 @@
         <meta name="viewport" content="width=480" />
         <link href="stylesheets/associarium.css" rel="stylesheet">
         <script src="javascripts/cookie.js"></script>
+        <script src="javascripts/room.js"></script>
         <script src="javascripts/player.js"></script>
-        <script src="http://ancooper.ddns.net/socket.io/socket.io.js"></script>
+        <script src="javascripts/pages.js"></script>
+        <script src="javascripts/client.js"></script>
+        <script src="http://192.168.1.128:80/socket.io/socket.io.js"></script>
         <script src="javascripts/associarium.js"></script>
     </head>
     <body>
@@ -19,19 +22,36 @@
         </div>
         <div class="page" id="pagelogin">
             <div class="pagetitle"><h1>LOGIN</hi></div>
-            <div id="nick">
-                <span>Nick:</span><input type="text" id="inputnick"><input type="submit" id="login" value="Enter">
+            <div class="pageright">
+                <span class="prefix">Nick:</span><input type="text" id="inputnick"><input type="submit" id="login" value="Enter">
             </div>            
         </div>
         <div class="page" id="pagelobby">
             <div class="pagetitle"><h1>LOBBY</hi></div>
-            <div class="wrapperlobby">
-                <span>Nick:</span><span id="nickname"></span><input type="submit" id="logout" value="Logout">
+            <div class="pageright">
+                <span class="prefix">Welcome:</span><span id="nickname"></span><input type="submit" id="logout" value="Logout">
             </div>
             <div class="wrapperlobby">
                 <div id="log"></div><div id="rooms"></div>
             </div>
-            <input type="text" id="input" autofocus><input type="submit" id="send" value="Send">
+            <input type="text" id="input" autofocus><input type="submit" id="send" value="Send"><input type="submit" id="newroom" value="My Room">
+        </div>
+        <div class="page" id="pageroom">
+            <div class="pagetitle"><h1>ROOM</hi></div>
+            <div class="pageright"><input type="submit" id="exitroom" value="exit"></div>
+        </div>
+        <div class="page" id="pagetable">
+            <div class="pagetitle"><h1>TABLE</hi></div>
+            <div class="pageright"><input type="submit" id="exittable" value="exit"></div>
+        </div>
+        <div class="page" id="pagenoconnection">
+            <div class="pagetitle"><h1>SORRY</hi></div>
+            <div class="pagetitle"><h3>no connection...</hi></div>
+            <div class="pageright"><input type="submit" id="reload" value="Restart"></div>
+        </div>
+        <div class="page" id="pagetable">
+            <div class="pagetitle"><h1>TABLE</hi></div>
+            <div class="pageright"><input type="submit" id="exitroom" value="exit"></div>
         </div>
     </body>
 </html>

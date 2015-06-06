@@ -38,15 +38,16 @@ div.page {
     float: right;
 }
 
-#nickname {
-    margin-right: 10px;
-}
-
 #input {
     width: 330px;
 }
-#send, #login, #logout{
+#send{
     width: 51px;
+}
+
+#newroom, #login, #logout {
+    width: 90px;
+    margin-left: 5px;
 }
 
 .in {
@@ -73,4 +74,9 @@ div.page {
 
 .pageright {
     float: right;
+    margin-bottom: 5px;
+}
+
+.prefix {
+    margin-right: 5px;
 }

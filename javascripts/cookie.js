@@ -54,6 +54,26 @@ Cookie = {
 		if (Cookie.get(key)) Cookie.set(key, '', 'Thu, 01-Jan-70 00:00:01 GMT', path, domain);
 	},
 
+	/** Set or unset if value is undefined a cookie
+	 *
+	 *  @param integer	key		The token that will be used to retrieve the cookie
+	 *  @param string	value	The string to be stored
+	 *  @param integer	ttl		Time To Live (hours)
+	 *  @param string	path	Path in which the cookie is effective, default is "/" (optional)
+	 *  @param string	domain	Domain where the cookie is effective, default is window.location.hostname (optional)
+	 *  @param boolean 	secure	Use SSL or not, default false (optional)
+	 * 
+	 *  @return setted cookie
+	 */
+	save: function(key, value, ttl, path, domain, secure) {
+		var res = undefined;
+		if (value !== undefined)
+			res = Cookie.set(key, value, ttl, path, domain, secure)
+		else
+			Cookie.unset(key, path, domain);
+		return res;
+	},
+
 	/** Return GTM date string of "now" + time to live
 	 *
 	 *  @param integer	ttl		Time To Live (hours)
