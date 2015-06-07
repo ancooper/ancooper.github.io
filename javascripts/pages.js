@@ -53,7 +53,10 @@ Pages.prototype.onShow = function(page) {
         case 'lobby':
             if (player.nickName)
                 document.querySelector('#nickname').innerHTML = player.nickName;
+            document.querySelector('#logout').onclick = function(){ self.logout() };
             document.querySelector('#newroom').onclick = function(){ self.newRoom() };
+			document.querySelector('#input').onkeypress = function(e) { if (e.which == '13') self.sendMessage() };
+			document.querySelector('#send').onclick = function(){ self.sendMessage() };
             break;
 
     	case 'room':
@@ -83,3 +86,13 @@ Pages.prototype.joinRoom = function(roomName) {
 Pages.prototype.exitRoom = function() {
 	client.exitRoom();
 };
+
+Pages.prototype.sendMessage = function() {
+	var message = escape(document.querySelector('#input').value);
+	document.querySelector('#input').value = '';
+	client.sendMessage(message);
+};
+
+Pages.prototype.logout = function() {
+	client.logout();
+}

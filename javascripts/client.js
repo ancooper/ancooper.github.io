@@ -54,8 +54,23 @@ Client.prototype.setup = function() {
     			pages.set('room');
     			break;
     	};
+    	if (room.messages>room.messagesloaded) {
+    		self.loadMessage();
+    	}
+    });
+
+    this.socket.on('roomMessages', function(message) {
+    	console.log(message);
+    	room.messagesloaded = message.to;
+    	room.messageloading = false;
+    	for (i in message.texts)
+			document.querySelector('#log').innerHTML += '<span class="in"><span class="time">'+(new Date(message.texts[i].time)).toLocaleTimeString()+'</span><span class="user">'+message.texts[i].name+'</span>: '+message.texts[i].text+'</span><br>';
+		document.querySelector('#log').scrollTop = document.querySelector('#log').scrollHeight;
     });
 };
+
+Client.prototype.time = function() { return (new Date).toLocaleTimeString() };
+
 
 Client.prototype.enter = function() {
     if (!this.connected())
@@ -72,7 +87,14 @@ Client.prototype.enterLogin = function(nickName, pass) {
     	pages.set('noconnection');
 
     player.nickName = nickName;
-    this.socket.emit('login', {'nickName': nickName, 'pass': pass});
+    this.socket.emit('login', {'name': nickName, 'pass': pass});
+};
+
+Client.prototype.sendMessage = function(text) {
+	var message = player.iam();
+	message.action = Room.RA_MESSAGE;
+	message.text = text;
+	this.socket.emit('room', message);	
 };
 
 Client.prototype.getRoomInfo = function() {
@@ -89,7 +111,7 @@ Client.prototype.createRoom = function() {
 
 Client.prototype.joinRoom = function(roomName) {
 	var message = player.iam();
-	message.roomName = roomName;
+	message.name = roomName;
 	message.action = Room.RA_JOIN;
 	this.socket.emit('room', message);
 };
@@ -101,4 +123,15 @@ Client.prototype.exitRoom = function() {
 	else
 		message.action = Room.RA_LEAVE;
 	this.socket.emit('room', message);
+};
+
+Client.prototype.loadMessage = function() {
+	var message = player.iam();
+	room.loadMessage(message);
+	this.socket.emit('room', message);
+};
+
+Client.prototype.logout = function() {
+	console.log('logout');
+	location.reload(true);
 };

@@ -34,7 +34,7 @@ Player.prototype.exist = function() {
 };
 
 Player.prototype.iam = function() {
-	return {'nickName': this.nickName, 'token': this.token};
+	return {'name': this.nickName, 'token': this.token};
 };
 
 Player.prototype.setToken = function(token) {
