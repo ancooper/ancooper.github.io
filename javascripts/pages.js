@@ -76,7 +76,7 @@ Pages.prototype.enterLogin = function() {
 };
 
 Pages.prototype.newRoom = function() {
-	client.createRoom();
+	client.createRoom({'minPlayers': 3, 'maxPlayers': 8});
 };
 
 Pages.prototype.joinRoom = function(roomName) {

@@ -8,7 +8,16 @@ strings = {
     'userSplit': '[sys][time]%time%[/time]: Пользователь [user]%name%[/user] покинул чат.[/sys]'
 };
 
-document.querySelector('#log').innerHTML += strings[msg.event].replace(/\[([a-z]+)\]/g, '<span class="$1">').replace(/\[\/[a-z]+\]/g, '</span>').replace(/\%time\%/, msg.time).replace(/\%name\%/, msg.name).replace(/\%text\%/, unescape(msg.text).replace('<', '&lt;').replace('>', '&gt;')) + '<br>';
+document.querySelector('#log').innerHTML += 
+    strings[msg.event]
+    .replace(/\[([a-z]+)\]/g, '<span class="$1">')
+    .replace(/\[\/[a-z]+\]/g, '</span>')
+    .replace(/\%time\%/, msg.time)
+    .replace(/\%name\%/, msg.name)
+    .replace(/\%text\%/, unescape(msg.text)
+    .replace('<', '&lt;')
+    .replace('>', '&gt;'))
+     + '<br>';
 document.querySelector('#log').scrollTop = document.querySelector('#log').scrollHeight;
 
 */
@@ -23,7 +32,7 @@ window.onload = function() {
 };
 
 
-
+/*
 window.onload_old = function() {
 
 
@@ -42,3 +51,4 @@ window.onload_old = function() {
 
     });
 };
+*/

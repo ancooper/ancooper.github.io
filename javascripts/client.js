@@ -28,6 +28,7 @@ Client.prototype.setup = function() {
         		self.enter();
         		break;
         	case 'iam':
+        	case 'newRoom':
         		self.getRoomInfo();
         		break;
     	};
@@ -54,6 +55,7 @@ Client.prototype.setup = function() {
     			pages.set('room');
     			break;
     	};
+    	document.querySelector("#roomstate").innerHTML = room.stateToString();
     	if (room.messages>room.messagesloaded) {
     		self.loadMessage();
     	}
@@ -71,13 +73,12 @@ Client.prototype.setup = function() {
 
 Client.prototype.time = function() { return (new Date).toLocaleTimeString() };
 
-
 Client.prototype.enter = function() {
     if (!this.connected())
     	pages.set('noconnection');
 
     if (player.exist())
-    	this.socket.emit('iam', player.iam());
+    	this.socket.emit('iam', {'player': player.iam()});
     else
     	pages.set('login');
 };
@@ -87,51 +88,57 @@ Client.prototype.enterLogin = function(nickName, pass) {
     	pages.set('noconnection');
 
     player.nickName = nickName;
-    this.socket.emit('login', {'name': nickName, 'pass': pass});
-};
-
-Client.prototype.sendMessage = function(text) {
-	var message = player.iam();
-	message.action = Room.RA_MESSAGE;
-	message.text = text;
-	this.socket.emit('room', message);	
+    this.socket.emit('login', {'name': nickName, 'pass': pass}); //TODO:hash
 };
 
 Client.prototype.getRoomInfo = function() {
-	var message = player.iam();
-	message.action = Room.RA_INFO;
-	this.socket.emit('room', message);
+	this.socket.emit(room.type == Room.RT_TABLE ? 'room' : 'lobby', {
+		'player': player.iam(),
+		'action': Room.RA_INFO
+	});
 };
 
-Client.prototype.createRoom = function() {
-	var message = player.iam();
-	message.action = Room.RA_NEW;
-	this.socket.emit('room', message);
+Client.prototype.sendMessage = function(text) {
+	this.socket.emit('room', {
+		'player': player.iam(),
+		'action': Room.RA_MESSAGE,
+		'text': text
+	});	
+};
+
+Client.prototype.createRoom = function(settings) {
+	this.socket.emit('lobby', {
+		'player': player.iam(),
+		'action': Room.RA_NEW,
+		'settings': settings
+	});
 };
 
 Client.prototype.joinRoom = function(roomName) {
-	var message = player.iam();
-	message.name = roomName;
-	message.action = Room.RA_JOIN;
-	this.socket.emit('room', message);
+	this.socket.emit('lobby', {
+		'player': player.iam(),
+		'action': Room.RA_JOIN,
+		'name': roomName
+	});
 };
 
 Client.prototype.exitRoom = function() {
-	var message = player.iam();
-	if (room.owner == player.nickName)
-		message.action = Room.RA_CLOSE
-	else
-		message.action = Room.RA_LEAVE;
-	this.socket.emit('room', message);
+	this.socket.emit('room', {
+		'player': player.iam(),
+		'action': room.owner == player.nickName ? Room.RA_CLOSE : Room.RA_LEAVE
+	});
 };
 
 Client.prototype.loadMessage = function() {
-	var message = player.iam();
-	room.loadMessage(message);
-	this.socket.emit('room', message);
+	this.socket.emit('room', {
+		'player': player.iam(),
+		'action': Room.RA_GETMESSAGES,
+		'params': room.loadMessageParams()
+	});
 };
 
 Client.prototype.logout = function() {
+	this.socket.emit('logout', { 'player': player.iam() });	
 	console.log('logout');
 	location.reload(true);
 };
