@@ -1,5 +1,5 @@
 Client = function() {
-    this.host = 'http://192.168.1.128:80/'; //http://ancooper.ddns.net:80/
+    this.host = 'http://ancooper.ddns.net:80/'; //http://192.168.1.128:80/
     this.options = {
         'force new connection': true,
         'resource': 'path/to/socket.io'};
