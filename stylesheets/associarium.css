@@ -2,21 +2,18 @@ div.page {
     position: absolute;
     width: 480px;
     height: 100%;
-}
-
-#pagelogin { 
-    display: block;
-}
-
-#pagelobby {
     display: none;
 }
 
-.wrapperlobby{
+#pagesplash { 
+    display: block;
+}
+
+.wrapperlobby, .wrapperchat{
     width: 100%;
 }
 
-#log {
+#lobbychat {
     width: 373px;
     height: 290px;
     border: 1px solid rgb(192, 192, 192);
@@ -27,7 +24,7 @@ div.page {
     float: left;
 }
 
-#rooms {
+#lobbyrooms {
     width: 78px;
     height: 290px;
     border: 1px solid rgb(192, 192, 192);
@@ -38,10 +35,32 @@ div.page {
     float: right;
 }
 
-#input {
+#roomchatplayers {
+    width: 78px;
+    height: 290px;
+    border: 1px solid rgb(192, 192, 192);
+    padding: 5px;
+    margin-bottom: 5px;
+    font: 11pt 'Verdana';
+    overflow: auto;
+    float: left;
+}
+
+#roomchat {
+    width: 373px;
+    height: 290px;
+    border: 1px solid rgb(192, 192, 192);
+    padding: 5px;
+    margin-bottom: 5px;
+    font: 11pt 'Verdana';
+    overflow: auto;
+    float: right;
+}
+
+#input, #roomchatinput {
     width: 330px;
 }
-#send{
+#send, #roomchatsend{
     width: 51px;
 }
 
@@ -70,6 +89,12 @@ div.page {
 .pagetitle {
     width: 100%;
     text-align: center;
+}
+
+.pageblock {
+    width: 100%;
+    float: none;
+    clear: both;
 }
 
 .pageright {

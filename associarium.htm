@@ -16,8 +16,10 @@
     <body>
         <div class="page" id="pagesplash">
             <div class="pagetitle"><h1>ASSOCIARIUM</h1></div>
-            <div class="pagetitle"><h3>v 0.2 alpha</h3></div>
-            <div class="pagetitle"><h3>code ancooper | art vallly</h3></div>
+            <div class="pagetitle"><h3>v 0.3 alpha</h3></div>
+            <div class="pagetitle"><h3>code: ancooper</h3></div>
+            <div class="pagetitle"><h3>art: free collection</h3></div>
+            <div class="pagetitle"><h3>music: free collection</h3></div>
             <div class="pageright"><input type="submit" id="skip" value="skip"></div>
         </div>
         <div class="page" id="pagelogin">
@@ -32,27 +34,43 @@
                 <span class="prefix">Welcome:</span><span id="nickname"></span><input type="submit" id="logout" value="Logout">
             </div>
             <div class="wrapperlobby">
-                <div id="log"></div><div id="rooms"></div>
+                <div id="lobbychat"></div><div id="lobbyrooms"></div>
             </div>
             <input type="text" id="input" autofocus><input type="submit" id="send" value="Send"><input type="submit" id="newroom" value="My Room">
         </div>
+
+
         <div class="page" id="pageroom">
             <div class="pagetitle"><h1>ROOM</h1></div>
             <div class="pagetitle"><span id="roomstate"></span></div>
+            <div class="pageblock">
+                <div id="roomchatopened">
+                    <div id="roomchatplayers"></div><div id="roomchat"></div>
+                    <div class="pageright"><input type="text" id="roomchatinput" autofocus><input type="submit" id="roomchatsend" value="Send"></div>
+                </div>
+                <div id="roomchatclosed">
+                    
+                </div>
+            </div>
+            <div class="pageblock">
+                
+            </div>
+            <div class="pageblock">
+                
+            </div>
+            <div class="pageblock">
+                
+            </div>
+
             <div class="pageright"><input type="submit" id="exitroom" value="exit"></div>
         </div>
-        <div class="page" id="pagetable">
-            <div class="pagetitle"><h1>TABLE</h1></div>
-            <div class="pageright"><input type="submit" id="exittable" value="exit"></div>
-        </div>
+
+
+
         <div class="page" id="pagenoconnection">
             <div class="pagetitle"><h1>SORRY</h1></div>
             <div class="pagetitle"><h3>no connection...</h3></div>
             <div class="pageright"><input type="submit" id="reload" value="Restart"></div>
-        </div>
-        <div class="page" id="pagetable">
-            <div class="pagetitle"><h1>TABLE</h1></div>
-            <div class="pageright"><input type="submit" id="exitroom" value="exit"></div>
         </div>
     </body>
 </html>

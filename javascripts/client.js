@@ -46,16 +46,10 @@ Client.prototype.setup = function() {
 
     this.socket.on('roomInfo', function(message) {
     	console.log('roomInfo', message);
+    	var page = message.type == Room.RT_TABLE ? 'room' : 'lobby';
     	room.update(message);
-    	switch(message.type){
-    		case Room.RT_LOBBY:
-    			pages.set('lobby');
-    			break;
-    		case Room.RT_TABLE:
-    			pages.set('room');
-    			break;
-    	};
-    	document.querySelector("#roomstate").innerHTML = room.stateToString();
+		pages.set(page);
+    	pages.update(page);
     	if (room.messages>room.messagesloaded) {
     		self.loadMessage();
     	}
@@ -119,6 +113,13 @@ Client.prototype.joinRoom = function(roomName) {
 		'player': player.iam(),
 		'action': Room.RA_JOIN,
 		'name': roomName
+	});
+};
+
+Client.prototype.startGame = function() {
+	this.socket.emit('room', {
+		'player': player.iam(),
+		'action': Room.RA_START
 	});
 };
 

@@ -1,9 +1,5 @@
 Room = function() {
-	this.type = Room.RT_UNKNOWN;
-	this.roomName = 'none';
-	this.messagesloaded = 0;
-	this.messages = 0;
-	this.messageloading = false;
+	this.clear();
 };
 
 Room.RS_UNKNOWN = 0;
@@ -32,11 +28,14 @@ Room.RA_GETMESSAGES = 6;
 Room.RA_INVITE = 7;
 Room.RA_INFO = 8;
 Room.RA_START = 9;
+Room.RA_PRESENT = 10;
 
 Room.StateToString = function(state) {
 	switch(state) {
 		case Room.RS_INVITE:
 			return 'Invite players';
+		case Room.RS_DISTRIBUTION:
+			return 'Distribution cards';
 		case Room.RS_UNKNOWN:
 		default:
 	}
@@ -47,12 +46,32 @@ Room.prototype.stateToString = function() {
 	return Room.StateToString(this.state);
 }
 
-Room.prototype.update = function(roomInfo) {
-	this.type = roomInfo.type;
-	this.state = roomInfo.state;
-	this.roomName = roomInfo.name;
-	this.owner = roomInfo.owner;
-	this.messages = roomInfo.messages;
+Room.prototype.clear = function() {
+	this.type = Room.RT_UNKNOWN;
+	this.name = 'none';
+	this.messagesloaded = 0;
+	this.messages = 0;
+	this.messageloading = false;
+}
+
+Room.prototype.update = function(info) {
+	if (!info) return;
+	if (this.name != info.name) this.clear();
+	this.set('type', info.type);
+	this.set('name', info.name);
+	this.set('state', info.state);
+	this.set('owner', info.owner);
+	this.set('messages', info.messages);
+	this.set('players', info.players);
+	this.set('rooms', info.rooms);
+};
+
+Room.prototype.set = function(name, value) {
+	if (value) this[name] = value;
+};
+
+Room.prototype.unset = function(name) {
+	this[name] = undefined;
 };
 
 Room.prototype.loadMessageParams = function() {

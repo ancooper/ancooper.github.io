@@ -24,8 +24,14 @@ document.querySelector('#log').scrollTop = document.querySelector('#log').scroll
 
 window.onload = function() {
     client = new Client();
-    pages = new Pages(client, 'splash');
+    pages = new Pages(client, 'splash');//, 'room');
     room = new Room();
+
+    /*/debug
+    room.update({'players': [{'name': 'coop'}, {'name': 'cooper'}, {'name': 'ancooper'}]});
+    pages.update('room');
+    /**/
+
     player = new Player(client);
 
     client.connect();

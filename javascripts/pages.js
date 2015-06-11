@@ -8,6 +8,7 @@ Pages = function(client, startPage) {
 };
 
 Pages.prototype.set = function(page) {
+	if (this.current == page) return;
     this.hide(this.current);
     this.current = page;
     this.show(this.current);
@@ -64,6 +65,30 @@ Pages.prototype.onShow = function(page) {
     		break;
     }
 };
+
+Pages.prototype.onUpdate = function(page) {
+	var self = this;
+    switch(page){
+        case 'login':
+            break;
+
+        case 'lobby':
+        	if (room.rooms)
+    			document.querySelector('#lobbyrooms').innerHTML = room.rooms.map(function (room) {return '<a href="#" onclick="client.joinRoom(\''+room.name+'\')">'+room.name+'</a>'}).join('<br>');
+            break;
+
+    	case 'room':
+    		document.querySelector("#roomstate").innerHTML = room.stateToString();
+    		if (room.players)
+    			document.querySelector('#roomchatplayers').innerHTML = room.players.map(function (player) {return '<span>'+player.name+'</span>'}).join('<br>');
+    		break;
+    }
+};
+
+Pages.prototype.update = function(page) {
+	if (this.onUpdate)
+		this.onUpdate(page);
+}
 
 Pages.prototype.skipSplash = function() {
 	client.enter();
