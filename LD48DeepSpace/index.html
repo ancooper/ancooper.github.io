@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <canvas id="unity-canvas" width=800 height=450></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -21,6 +21,17 @@
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">Deep space</div>
+      </div>
+      <div style="margin-right: 10px; padding-top: 40px; font-family: arial; font-size: 18px">
+        <p><b>Controls</b></p>
+        <p>Move: arrows or W, A, S, D</p>
+        <p>Dash: space button</p>
+        <p>Interract: E</p>
+        <p></p>
+        <p><b>Goals</b></p>
+        <p>Red: Nuclear reactor. Press up or down to keep temperature in green zone.</p>
+        <p>Green: Charger for droid. Press up to charge.</p>
+        <p>Blue: Navigate orientation in space. Press arrows to keep it in green zone. Avoid lost signal.</p>    
       </div>
     </div>
     <script>
@@ -62,7 +73,7 @@
         frameworkUrl: buildUrl + "/WebGL.framework.js",
         codeUrl: buildUrl + "/WebGL.wasm",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
+        companyName: "Ancooper games",
         productName: "Deep space",
         productVersion: "1.0",
         showBanner: unityShowBanner,
@@ -95,8 +106,8 @@
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
+        canvas.style.width = "800px";
+        canvas.style.height = "450px";
       }
 
       loadingBar.style.display = "block";
